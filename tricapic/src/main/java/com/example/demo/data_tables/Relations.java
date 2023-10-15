@@ -19,12 +19,12 @@ public class Relations {
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "userId" , referencedColumnName = "followerId" , nullable = false)
+    @JoinColumn(name = "followerId" , referencedColumnName = "userId" , nullable = false)
     private Users followerId;
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "userId" , referencedColumnName = "followedId" , nullable = false)
+    @JoinColumn(name = "followedId" , referencedColumnName = "userId" , nullable = false)
     private Users followedId;
 
     //getter,setter
