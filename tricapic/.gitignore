@@ -33,5 +33,3 @@ build/
 ### VS Code ###
 .vscode/
 
-# Tricapic/data フォルダ内のすべてのファイルを除外
-data/*
