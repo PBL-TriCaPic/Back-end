@@ -16,13 +16,18 @@ public class CapsulesService {
         this.capsulesRepo = capsulesRepo;
     }
 
-    //create capsules
-    public Capsules createCapsule(Capsules capsule) {
-        return capsulesRepo.save(capsule);
+    // create capsules
+    public boolean createCapsule(Capsules capsule) {
+        try {
+            capsulesRepo.save(capsule);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    //get capsules
-    public Capsules getCapsule(Long id) {
-        return capsulesRepo.findById(id).orElse(null);
+    // get capsules
+    public boolean getCapsule(Long id) {
+        return capsulesRepo.findById(id).isPresent();
     }
 }
