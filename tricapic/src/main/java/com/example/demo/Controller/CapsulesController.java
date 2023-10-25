@@ -23,12 +23,12 @@ public class CapsulesController {
     }
 
     @PostMapping("/create")
-    public Capsules createCapsule(@RequestBody Capsules capsule) {
+    public boolean createCapsule(@RequestBody Capsules capsule) {
         return capsulesService.createCapsule(capsule);
     }
 
     @GetMapping("/{id}")
-    public Capsules getCapsule(@PathVariable Long id) {
+    public boolean getCapsule(@PathVariable Long id) {
         return capsulesService.getCapsule(id);
     }
 }
