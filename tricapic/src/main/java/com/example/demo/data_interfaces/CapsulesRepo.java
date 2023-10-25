@@ -11,5 +11,5 @@ import com.example.demo.data_tables.Capsules;
 
 @Repository
 public interface CapsulesRepo extends JpaRepository<Capsules , Long>{
-    Capsules findBycapsulesId(Long capsulesId);
+    
 }

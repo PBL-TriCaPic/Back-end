@@ -2,9 +2,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.data_interfaces.CapsulesRepo;
+import com.example.demo.data_tables.Capsules;
 
 @Service
-public class CapsulesService implements CapsulesRepo {
+public class CapsulesService {
 
     private final CapsulesRepo capsulesRepo;
 
@@ -13,12 +14,10 @@ public class CapsulesService implements CapsulesRepo {
         this.capsulesRepo = capsulesRepo;
     }
 
-    @Override
-    public CapsulesRepo createCapsule(CapsulesRepo capsule) {
+    public CapsulesRepo createCapsule(Capsules capsule) {
         return capsulesRepo.save(capsule);
     }
 
-    @Override
     public CapsulesRepo getCapsule(Long id) {
         return capsulesRepo.findById(id).orElse(null);
     }
