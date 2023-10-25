@@ -6,27 +6,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.Service.CapsulesService;
-import com.example.demo.data_tables.Capsules;
+import com.example.demo.data_interfaces.CapsulesRepo;
 
 @RestController
 @RequestMapping("/capsules")
 public class CapsulesController {
 
-    private final CapsulesService capsulesService;
+    private final CapsulesRepo capsulesService;
 
     @Autowired
-    public CapsulesController(CapsulesService capsulesService) {
+    public CapsulesController(CapsulesRepo capsulesService) {
         this.capsulesService = capsulesService;
     }
 
     @PostMapping("/create")
-    public Capsules createCapsule(@RequestBody Capsules capsule) {
+    public CapsulesRepo createCapsule(@RequestBody CapsulesRepo capsule) {
         return capsulesService.createCapsule(capsule);
     }
 
     @GetMapping("/{id}")
-    public Capsules getCapsule(@PathVariable Long id) {
+    public CapsulesRepo getCapsule(@PathVariable Long id) {
         return capsulesService.getCapsule(id);
     }
 }
