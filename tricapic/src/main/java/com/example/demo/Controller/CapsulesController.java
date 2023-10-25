@@ -1,3 +1,5 @@
+package com.example.demo.Controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -6,26 +8,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.data_interfaces.CapsulesRepo;
+import com.example.demo.data_tables.Capsules;
+import com.example.demo.service.CapsulesService;
 
 @RestController
 @RequestMapping("/capsules")
 public class CapsulesController {
 
-    private final CapsulesRepo capsulesService;
+    private final CapsulesService capsulesService;
 
     @Autowired
-    public CapsulesController(CapsulesRepo capsulesService) {
+    public CapsulesController(CapsulesService capsulesService) {
         this.capsulesService = capsulesService;
     }
 
     @PostMapping("/create")
-    public CapsulesRepo createCapsule(@RequestBody CapsulesRepo capsule) {
+    public Capsules createCapsule(@RequestBody Capsules capsule) {
         return capsulesService.createCapsule(capsule);
     }
 
     @GetMapping("/{id}")
-    public CapsulesRepo getCapsule(@PathVariable Long id) {
+    public Capsules getCapsule(@PathVariable Long id) {
         return capsulesService.getCapsule(id);
     }
 }

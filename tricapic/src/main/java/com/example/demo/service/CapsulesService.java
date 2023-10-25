@@ -1,3 +1,5 @@
+package com.example.demo.service;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +16,13 @@ public class CapsulesService {
         this.capsulesRepo = capsulesRepo;
     }
 
-    public CapsulesRepo createCapsule(Capsules capsule) {
+    //create capsules
+    public Capsules createCapsule(Capsules capsule) {
         return capsulesRepo.save(capsule);
     }
 
-    public CapsulesRepo getCapsule(Long id) {
+    //get capsules
+    public Capsules getCapsule(Long id) {
         return capsulesRepo.findById(id).orElse(null);
     }
 }
