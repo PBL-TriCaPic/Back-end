@@ -26,11 +26,28 @@ public class preRequest {
         userInf.setNotice(false);
         return dataOperation.createUser(userInf);
     }
+
+
     @PostMapping("/demo")
     public void demo(){
         System.out.println("おめでとう！！");
     }
 
+    // @PostMapping("/login")
+    // public String userLogin(@RequestBody Users userInf){
+    //     Users users=dataOperation.readUser(userInf.getEmail());
+    //     String pass=userInf.getPassword();
+    //     String dbpass=users.getPassword();
+
+    //     // pre p= new pre();
+    //     if(pass.equals(dbpass)){
+    //         return (users.getName());
+    //         // p.userId=userInf.getUserId();
+    //         // p.username=userInf.getName();
+    //     }
+
+    //     return "a";
+    // }
     @PostMapping("/login")
     public pre userLogin(@RequestBody Users userInf){
         Users users = dataOperation.readUser(userInf.getEmail());
