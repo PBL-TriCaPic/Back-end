@@ -2,8 +2,8 @@ package com.example.demo.data_functions;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.data_interfaces.*;
-import com.example.demo.data_tables.*;
+import com.example.demo.data_interfaces.UsersRepo;
+import com.example.demo.data_tables.Users;
 
 @Service
 public class DataOperation {
@@ -30,7 +30,6 @@ public class DataOperation {
     //Get user data by email
     public Users readUser(String email) {
         return usersRepo.findByEmail(email);
-    } 
-
+    }
 
 }
