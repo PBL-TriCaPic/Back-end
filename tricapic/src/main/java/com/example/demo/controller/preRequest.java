@@ -24,7 +24,11 @@ public class preRequest {
         return dataOperation.createUser(userInf);
     }
 
-    
+
+    @PostMapping("/demo")
+    public void demo(){
+        System.out.println("おめでとう！！");
+    }
 
     // @PostMapping("/login")
     // public String userLogin(@RequestBody Users userInf){

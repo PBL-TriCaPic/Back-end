@@ -1,6 +1,8 @@
 package com.example.demo.data_functions;
 
 
+import org.springframework.stereotype.Service;
+
 import com.example.demo.data_interfaces.*;
 import com.example.demo.data_tables.*;
 import org.springframework.stereotype.Service;
