@@ -1,16 +1,12 @@
 package com.example.demo.data_functions;
 
-
 import java.util.List;
 
+import com.example.demo.data_interfaces.*;
+import com.example.demo.data_tables.*;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.data_interfaces.CapsulesRepo;
-import com.example.demo.data_interfaces.UsersRepo;
-import com.example.demo.data_tables.Capsules;
-import com.example.demo.data_tables.Users;
 @Service
-
 public class DataOperation {
 
     //コンストラクタインジェクション
