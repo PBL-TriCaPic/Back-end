@@ -9,10 +9,10 @@ import com.example.demo.data_tables.Capsules;
 @Service
 public class CapsulesService {
 
-    @Autowired
+    
     private final CapsulesRepo capsulesRepo;
 
-    @Autowired
+    
     public CapsulesService(CapsulesRepo capsulesRepo) {
         this.capsulesRepo = capsulesRepo;
     }

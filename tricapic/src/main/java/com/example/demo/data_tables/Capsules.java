@@ -24,7 +24,7 @@ public class Capsules {
     private Users users;
 
     @Column(name = "capsuleDate" , nullable = false)
-    private LocalDateTime copusuleDate;
+    private LocalDateTime capsuleDate;
 
     @Column(name = "videoData")
     private String videoData;
@@ -71,11 +71,11 @@ public class Capsules {
     }
 
     public LocalDateTime getCopusuleDate() {
-        return copusuleDate;
+        return capsuleDate;
     }
 
     public void setCopusuleDate(LocalDateTime copusuleDate) {
-        this.copusuleDate = copusuleDate;
+        this.capsuleDate = copusuleDate;
     }
 
     public String getVideoData() {
