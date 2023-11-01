@@ -6,6 +6,6 @@ import com.example.demo.data_tables.Users;
 
 @Repository
 public interface UsersRepo extends JpaRepository<Users , String>{
+    Users findByUserId(String userId);
     Users findByEmail(String email);
-    Users findByUserId(String userid);
 }
