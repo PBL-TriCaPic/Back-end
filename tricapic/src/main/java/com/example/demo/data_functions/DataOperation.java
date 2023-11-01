@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.data_interfaces.*;
 import com.example.demo.data_tables.*;
-import org.springframework.stereotype.Service;
+
 
 @Service
 public class DataOperation {
@@ -21,12 +21,18 @@ public class DataOperation {
 
     //Add new data for Users table
     public boolean createUser(Users newUser) {
-        if (newUser.getEmail() == null || newUser.getEmail().isEmpty()) {
+        if (newUser.getEmail() == null || newUser.getEmail().isEmpty() 
+        || newUser.getUserId() == null || newUser.getUserId().isEmpty()
+        || newUser.getPassword() == null || newUser.getPassword().isEmpty()
+        || newUser.getName() == null || newUser.getName().isEmpty()) {
             return false;
         }
+        
+        
         try {
             // 1. データベース内でUserIdが存在するか確認
             Users existingUser = usersRepo.findByUserId(newUser.getUserId());
+
     
             if (existingUser != null) {
                 // 2. UserIdが既に存在する場合、エラーを処理するかエラーメッセージを返す
