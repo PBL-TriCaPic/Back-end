@@ -1,8 +1,16 @@
 package com.example.demo.data_tables;
 
 import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 // =================================
 // 
@@ -24,7 +32,7 @@ public class Capsules {
     private Users users;
 
     @Column(name = "capsuleDate" , nullable = false)
-    private LocalDateTime copusuleDate;
+    private LocalDateTime capsuleDate;
 
     @Column(name = "videoData")
     private String videoData;
@@ -70,12 +78,12 @@ public class Capsules {
         this.users = users;
     }
 
-    public LocalDateTime getCopusuleDate() {
-        return copusuleDate;
+    public LocalDateTime getCapsuleDate() {
+        return capsuleDate;
     }
 
-    public void setCopusuleDate(LocalDateTime copusuleDate) {
-        this.copusuleDate = copusuleDate;
+    public void setCopusuleDate(LocalDateTime capsuleDate) {
+        this.capsuleDate = capsuleDate;
     }
 
     public String getVideoData() {

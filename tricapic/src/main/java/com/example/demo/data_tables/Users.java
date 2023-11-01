@@ -1,7 +1,10 @@
 package com.example.demo.data_tables;
 
 import java.sql.Date;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 // =================================
 // 
