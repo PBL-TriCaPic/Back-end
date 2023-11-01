@@ -21,9 +21,21 @@ public class DataOperation {
 
     //Add new data for Users table
     public boolean createUser(Users newUser) {
+        if (newUser.getEmail() == null || newUser.getEmail().isEmpty()) {
+            return false;
+        }
         try {
-            usersRepo.save(newUser);
-            return true;
+            // 1. データベース内でUserIdが存在するか確認
+            Users existingUser = usersRepo.findByUserId(newUser.getUserId());
+    
+            if (existingUser != null) {
+                // 2. UserIdが既に存在する場合、エラーを処理するかエラーメッセージを返す
+                return false; // 例えば、すでに存在するユーザーの場合はfalseを返す
+            } else {
+                // 3. UserIdが存在しない場合、新しいユーザーをデータベースに挿入
+                usersRepo.save(newUser);
+                return true;
+            }
         } catch(Exception e) {
             return false;
         }
