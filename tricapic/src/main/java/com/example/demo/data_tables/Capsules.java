@@ -70,12 +70,12 @@ public class Capsules {
         this.users = users;
     }
 
-    public LocalDateTime getCopusuleDate() {
+    public LocalDateTime getCapsuleDate() {
         return capsuleDate;
     }
 
-    public void setCopusuleDate(LocalDateTime copusuleDate) {
-        this.capsuleDate = copusuleDate;
+    public void setCapsuleDate(LocalDateTime capsuleDate) {
+        this.capsuleDate = capsuleDate;
     }
 
     public String getVideoData() {
