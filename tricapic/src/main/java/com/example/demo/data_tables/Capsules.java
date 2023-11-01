@@ -82,7 +82,7 @@ public class Capsules {
         return capsuleDate;
     }
 
-    public void setCopusuleDate(LocalDateTime capsuleDate) {
+    public void setCapsuleDate(LocalDateTime capsuleDate) {
         this.capsuleDate = capsuleDate;
     }
 
