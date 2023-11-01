@@ -30,4 +30,9 @@ public class CapsulesController {
     public boolean getCapsule(@PathVariable Long id) {
         return capsulesService.getCapsule(id);
     }
+
+    @PostMapping("/saveImage")
+    public boolean saveImage(@RequestBody byte[] imageData) {
+        return capsulesService.saveImage(imageData);
+    }
 }
