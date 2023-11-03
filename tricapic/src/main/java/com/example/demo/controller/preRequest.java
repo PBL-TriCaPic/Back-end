@@ -81,12 +81,12 @@ public class preRequest {
             result.setCapsulesIdList(capsulesId);
             result.setCapsuleLatList(capsuleLat);
             result.setCapsuleLonList(capsuleLon);
-        }
-    } else {
+            }
+        } else {
         result.setUserId("false");
+        }
+        return result;
     }
-    return result;
-}
     
 }
 

@@ -13,6 +13,6 @@ import com.example.demo.data_tables.Capsules;
 
 @Repository
 public interface CapsulesRepo extends JpaRepository<Capsules, Long> {
-    List<Capsules> findAllByUsersUserId(String userId);
+    List<Capsules> findByUsers_UserId(String userId);
 }
 

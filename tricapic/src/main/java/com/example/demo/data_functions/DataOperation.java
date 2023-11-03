@@ -57,7 +57,7 @@ public class DataOperation {
 
     // ユーザーIDに基づいてカプセル情報を取得
     public List<Capsules> getCapsulesInfoByUserId(String userId) {
-        return capsulesRepo.findAllByUsersUserId(userId);
+        return capsulesRepo.findByUsers_UserId(userId);
 }
 
 }
