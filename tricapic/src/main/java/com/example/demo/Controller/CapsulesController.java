@@ -32,8 +32,14 @@ public class CapsulesController {
         return capsulesService.getCapsule(id);
     }
 
-    @PostMapping("/saveImage")
-    public boolean saveImage(@RequestBody byte[] imageData) {
-        return capsulesService.saveImage(imageData);
-    }
+//     @PostMapping("/saveImage")
+// public ResponseEntity<String> saveImage(@RequestBody byte[] imageData) {
+//     String fileName = capsulesService.saveImage(imageData);
+//     if (fileName != null) {
+//         return new ResponseEntity<>("Image saved successfully with file name: " + fileName, HttpStatus.OK);
+//     } else {
+//         return new ResponseEntity<>("Failed to save image", HttpStatus.BAD_REQUEST);
+//     }
+// }
+
 }
