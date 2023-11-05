@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.data_tables.Photos;
 
+
 @Repository
 public interface ImageRepo extends JpaRepository<Photos, Long> {
     // 任意のカスタムメソッドが必要な場合、ここに追加
