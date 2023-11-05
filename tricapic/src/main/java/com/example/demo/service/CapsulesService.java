@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
@@ -13,6 +14,7 @@ import com.example.demo.data_interfaces.CapsulesRepo;
 import com.example.demo.data_interfaces.ImageRepo;
 import com.example.demo.data_tables.Capsules;
 import com.example.demo.data_tables.Photos;
+
 
 @Service
 public class CapsulesService {
@@ -51,8 +53,9 @@ public class CapsulesService {
 
             // ファイルのメタデータをデータベースに保存するロジックを追加
             Photos photo = new Photos();
-            photo.setFileName(fileName);
-            photo.setFilePath(filePath.toString());
+            // photo.setImageData(fileName);
+            // photo.setImagePath(filePath.toString());
+            photo.setImageData(filePath.toString()); // ファイルパスを設定
             imageRepo.save(photo);
 
             return fileName;
