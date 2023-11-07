@@ -9,10 +9,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.data_interfaces.CapsulesRepo;
-import com.example.demo.data_tables.Capsules;
-import com.example.demo.data_tables.Photos;
-public class CapsulesService {
-
+import com.example.demo.data_interfaces.ImageRepo;
     
     private final CapsulesRepo capsulesRepo;
     
