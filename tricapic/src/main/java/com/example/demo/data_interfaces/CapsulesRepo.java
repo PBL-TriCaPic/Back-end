@@ -4,11 +4,6 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.data_tables.Capsules;
 
-// public interface CapsulesRepo {
-//     CapsulesRepo createCapsule(CapsulesRepo capsule);
-//     CapsulesRepo getCapsule(Long id);
-// }
-
 @Repository
 public interface CapsulesRepo extends JpaRepository<Capsules, Long> {
     // 任意のカスタムメソッドが必要な場合、ここに追加

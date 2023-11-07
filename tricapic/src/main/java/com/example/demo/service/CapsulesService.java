@@ -44,21 +44,21 @@ public class CapsulesService {
     }
 
     // save image
-    public String saveImage(MultipartFile file) {
+    public String saveImage(MultipartFile file) { //MultipartFileインスタンスを使いfileを引数とする
         try {
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            String uploadPath = "your/upload/directory"; // 適切なディレクトリパスを設定
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename()); //fileからオリジナルのファイル名を取得しStringUtils.cleanPath() メソッドで安全なファイル名を取得
+            String uploadPath = "C:\\Users\\2021052\\PBL\\Image"; // 適切なディレクトリパスを設定、アップロード先のディレクトリだと思う
             Path filePath = Paths.get(uploadPath).resolve(fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            // ファイルのメタデータをデータベースに保存するロジックを追加
-            Photos photo = new Photos();
-            // photo.setImageData(fileName);
-            // photo.setImagePath(filePath.toString());
+            // ファイルのメタデータをデータベースに保存
+            Photos photo = new Photos(); //Photosインスタンス化
             photo.setImageData(filePath.toString()); // ファイルパスを設定
             imageRepo.save(photo);
 
-            return fileName;
+            System.out.println("ここまでは動いている");
+
+            return filePath.toString(); // 保存されたファイルのフルパスを文字列で返す
         } catch (Exception e) {
             e.printStackTrace();
             return null;
