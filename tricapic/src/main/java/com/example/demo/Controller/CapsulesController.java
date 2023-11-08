@@ -12,22 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.data_tables.Capsules;
-import com.example.demo.service.CapsulesService;;
-
-
-@RestController
-@RequestMapping("/capsules")
-public class CapsulesController {
-
-    private final CapsulesService capsulesService;
-
-    public CapsulesController(CapsulesService capsulesService) {
-        this.capsulesService = capsulesService;
-    }
-
-    @PostMapping("/create")
-    public boolean createCapsule(@RequestBody Capsules capsule) {
-        return capsulesService.createCapsule(capsule);
+import com.example.demo.service.CapsulesService;sule);
     }
 
     @GetMapping("/{id}")
