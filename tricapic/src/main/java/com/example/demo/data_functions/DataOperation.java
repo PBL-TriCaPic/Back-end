@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.data_interfaces.*;
-import com.example.demo.data_tables.*;
+import com.example.demo.data_interfaces.CapsulesRepo;
+import com.example.demo.data_interfaces.UsersRepo;
+import com.example.demo.data_tables.Capsules;
+import com.example.demo.data_tables.Users;
 
 
 @Service
@@ -58,6 +60,12 @@ public class DataOperation {
     // ユーザーIDに基づいてカプセル情報を取得
     public List<Capsules> getCapsulesInfoByUserId(String userId) {
         return capsulesRepo.findByUsers_UserId(userId);
+}
+
+
+    // カプセルIDからカプセル情報を取得
+    public Capsules getCapsuleInfo(Long capsulesId) {
+        return capsulesRepo.findById(capsulesId).orElse(null);
 }
 
 }
