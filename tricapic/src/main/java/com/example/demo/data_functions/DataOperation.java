@@ -1,13 +1,20 @@
 package com.example.demo.data_functions;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.data_interfaces.CapsulesRepo;
-import com.example.demo.data_interfaces.UsersRepo;
-import com.example.demo.data_tables.Capsules;
-import com.example.demo.data_tables.Users;
+import com.example.demo.data_interfaces.*;
+import com.example.demo.data_tables.*;
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+
+import org.apache.commons.codec.binary.Base64;
 
 
 @Service
@@ -16,10 +23,13 @@ public class DataOperation {
     //コンストラクタインジェクション
     private UsersRepo usersRepo;
     private CapsulesRepo capsulesRepo;
+    private PhotosRepo photosRepo;
 
-    public DataOperation(UsersRepo usersRepo, CapsulesRepo capsulesRepo) {
+    public DataOperation(UsersRepo usersRepo, CapsulesRepo capsulesRepo
+    , PhotosRepo photosRepo) {
         this.usersRepo = usersRepo;
         this.capsulesRepo = capsulesRepo;
+        this.photosRepo = photosRepo;
     }
 
     //下記に必要なデータベース操作を記述
@@ -67,5 +77,25 @@ public class DataOperation {
     public Capsules getCapsuleInfo(Long capsulesId) {
         return capsulesRepo.findById(capsulesId).orElse(null);
 }
+
+    // get image data inf
+    public List<Photos> getPhotosInf(Long capsuleId) {
+        return photosRepo.findByCapsules_CapsulesId(capsuleId);
+    }
+
+    //
+    public String getImageDataAsBase64(String imagePath) {
+        try {
+            BufferedImage image = ImageIO.read(new File(imagePath));
+            System.out.println(image);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(image, "jpg", baos);
+            byte[] imageData = baos.toByteArray();
+            return Base64.encodeBase64String(imageData);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }

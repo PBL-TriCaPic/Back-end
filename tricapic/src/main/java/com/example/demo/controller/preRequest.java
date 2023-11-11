@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.data_functions.DataOperation;
 import com.example.demo.data_tables.Capsules;
-import com.example.demo.data_tables.Users;
+import com.example.demo.data_tables.*;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 @RestController
@@ -90,6 +90,15 @@ public class preRequest {
                 result.setReopenDate(capsule.getReopenDate());
                 // result.setVideoData(capsule.getVideoData());
                 // result.setAudioData(capsule.getAudioData());
+                            // 画像データをBase64エンコードして設定
+                String imageData = null;
+                List<Photos> photoinfList = dataOperation.getPhotosInf(capsule.getCapsulesId());
+                for (Photos photosinf : photoinfList) {
+                    imageData = dataOperation.getImageDataAsBase64(photosinf.getImageData());
+                }
+                
+                result.setImageData(imageData);
+
                 return result;
             }
             return null;
@@ -130,6 +139,8 @@ class pre{
 class CapsuleInfo {
     LocalDateTime capsuleDate;
     String textData;
+    String imageData;
+
     // String pinColor;
     // String pinForm;
     // String password;
@@ -143,6 +154,10 @@ class CapsuleInfo {
 
     public void setTextData(String textData) {
         this.textData = textData;
+    }
+
+    public void setImageData(String imagedata) {
+        this.imageData = imagedata;
     }
 
     // public void setPinColor(String pinColor) {

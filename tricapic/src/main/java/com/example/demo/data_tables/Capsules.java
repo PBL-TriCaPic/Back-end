@@ -23,7 +23,7 @@ public class Capsules {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "companionId" , nullable = false , unique = true)
+    @Column(name = "capsuleId" , nullable = false , unique = true)
     private Long capsulesId;
 
     @ManyToOne
