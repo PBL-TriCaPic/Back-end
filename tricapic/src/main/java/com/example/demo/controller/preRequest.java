@@ -77,7 +77,7 @@ public class preRequest {
     
 
      // カプセル情報参照(CapsuleDate, Text, ReopenDate のみ)
-        @GetMapping("/capsules/{capsulesId}")
+        @GetMapping("/get/capsules/{capsulesId}")
         public CapsuleInfo getCapsuleInfo(@PathVariable Long capsulesId) {
             Capsules capsule = dataOperation.getCapsuleInfo(capsulesId);
             if (capsule != null) {
