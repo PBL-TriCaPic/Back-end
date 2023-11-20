@@ -73,7 +73,7 @@ public class DataOperation {
     }
 
     // カプセルテーブルに情報追加
-    public boolean createCapsule(Capsules newCapsule, String imageDataBase64) {
+    public Long createCapsule(Capsules newCapsule, String imageDataBase64) {
         // if (newCapsule.getCapsuleDate() == null
         // || newCapsule.getCapsulesId() == null
         // || Float.isNaN(newCapsule.getCapsuleLat())
@@ -101,10 +101,12 @@ public class DataOperation {
             newpPhotos.setCapsules(savedCapsule);
             newpPhotos.setImageData(path);
             photosRepo.save(newpPhotos);
+            
             // 保存後のカプセルIDを取得して返す
-            return true;
+            return savedCapsule.getCapsulesId();
         } catch (Exception e) {
-            return false;
+            e.printStackTrace();
+            return null;
         }
     }
 
