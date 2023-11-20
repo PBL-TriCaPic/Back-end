@@ -74,36 +74,36 @@ public class DataOperation {
 
     // カプセルテーブルに情報追加
     public Long createCapsule(Capsules newCapsule, String imageDataBase64) {
-    if (newCapsule.getCapsuleDate() == null
-    || newCapsule.getCapsulesId() == null
-    || Float.isNaN(newCapsule.getCapsuleLat())
-    || Float.isNaN(newCapsule.getCapsuleLon())) {
-        return null; // 必要なデータが不足している場合はnullを返す
-    }
+        if (newCapsule.getCapsuleDate() == null
+        || newCapsule.getCapsulesId() == null
+        || Float.isNaN(newCapsule.getCapsuleLat())
+        || Float.isNaN(newCapsule.getCapsuleLon())) {
+            return null; // 必要なデータが不足している場合はnullを返す
+        }
 
     try {
 
-        // ユーザーが存在するか確認
-        Users user = newCapsule.getUsers();
-        if (user == null || usersRepo.findById(user.getUserId()).orElse(null) == null) {
+            // ユーザーが存在するか確認
+            Users user = newCapsule.getUsers();
+            if (user == null || usersRepo.findById(user.getUserId()).orElse(null) == null) {
+                return null;
+            }
+
+            // カプセルの作成日時を現在時刻に設定
+            newCapsule.setCapsuleDate(LocalDateTime.now());
+
+            // 新しいカプセルをデータベースに保存
+            Capsules savedCapsule = capsulesRepo.save(newCapsule);
+
+            // 画像データをデコードしてファイルに保存
+            saveImageData(savedCapsule.getCapsulesId(), imageDataBase64);
+
+            // 保存後のカプセルIDを取得して返す
+            return savedCapsule.getCapsulesId();
+        } catch (Exception e) {
             return null;
         }
-
-        // カプセルの作成日時を現在時刻に設定
-        newCapsule.setCapsuleDate(LocalDateTime.now());
-
-        // 新しいカプセルをデータベースに保存
-        Capsules savedCapsule = capsulesRepo.save(newCapsule);
-
-        // 画像データをデコードしてファイルに保存
-        saveImageData(savedCapsule.getCapsulesId(), imageDataBase64);
-
-        // 保存後のカプセルIDを取得して返す
-        return savedCapsule.getCapsulesId();
-    } catch (Exception e) {
-        return null;
     }
-}
 
     // 画像データをデコードしてファイルに保存
     private boolean saveImageData(Long capsulesId, String imageDataBase64) {
@@ -127,13 +127,13 @@ public class DataOperation {
     // ユーザーIDに基づいてカプセル情報を取得
     public List<Capsules> getCapsulesInfoByUserId(String userId) {
         return capsulesRepo.findByUsers_UserId(userId);
-}
+    }
 
 
     // カプセルIDからカプセル情報を取得
     public Capsules getCapsuleInfo(Long capsulesId) {
         return capsulesRepo.findById(capsulesId).orElse(null);
-}
+    }
 
     // get image data inf
     public List<Photos> getPhotosInf(Long capsuleId) {
