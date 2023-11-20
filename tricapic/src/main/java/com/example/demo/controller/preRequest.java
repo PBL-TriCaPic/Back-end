@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.data_functions.DataOperation;
 import com.example.demo.data_tables.Capsules;
-import com.example.demo.data_tables.*;
+import com.example.demo.data_tables.Photos;
+import com.example.demo.data_tables.Users;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 @RestController
@@ -74,6 +77,31 @@ public class preRequest {
         }
         return result;
     }
+
+
+    @PostMapping("/create/capsule")
+    public ResponseEntity<Long> createCapsule(@RequestBody CapsuleRequest capsuleRequest) {
+    // カプセル情報を取得
+    Capsules newCapsule = new Capsules();
+    newCapsule.setCapsuleDate(LocalDateTime.now());
+    newCapsule.setCapsuleLat(capsuleRequest.getCapsuleLat());
+    newCapsule.setCapsuleLon(capsuleRequest.getCapsuleLon());
+    newCapsule.setTextData(capsuleRequest.getTextData());
+
+    // 画像データのBase64エンコードを取得
+    String imageDataBase64 = capsuleRequest.getImageDataBase64();
+
+    // 新しいカプセルをデータベースに保存
+    Long savedCapsuleId = dataOperation.createCapsule(newCapsule, imageDataBase64);
+
+    if (savedCapsuleId != null) {
+        return new ResponseEntity<>(savedCapsuleId, HttpStatus.OK);
+    } else {
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+
+
     
 
      // カプセル情報参照(CapsuleDate, Text, ReopenDate のみ)
@@ -131,6 +159,57 @@ class pre{
 
     public void setCapsuleLonList(List<Float> capsuleLonList) {
         this.capsuleLonList = capsuleLonList;
+    }
+
+}
+
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+class CapsuleRequest {
+    private LocalDateTime capsuleDate;
+    private Float capsuleLat;
+    private Float capsuleLon;
+    private String textData;
+    private String imageDataBase64;
+
+
+    public LocalDateTime getCapsuleDate() {
+        return capsuleDate;
+    }
+
+    public void setCapsuleDate(LocalDateTime capsuleDate) {
+        this.capsuleDate = capsuleDate;
+    }
+
+    public float getCapsuleLat() {
+        return capsuleLat;
+    }
+
+    public void setCapsuleLat(Float capsuleLat) {
+        this.capsuleLat = capsuleLat;
+    }
+
+    public float getCapsuleLon() {
+        return capsuleLon;
+    }
+
+    public void setCapsuleLon(Float capsuleLon) {
+        this.capsuleLon = capsuleLon;
+    }
+
+    public String getTextData() {
+        return textData;
+    }
+
+    public void setTextData(String textData) {
+        this.textData = textData;
+    }
+
+    public String getImageDataBase64() {
+        return imageDataBase64;
+    }
+
+    public void setImageDataBase64(String imageDataBase64) {
+        this.imageDataBase64 = imageDataBase64;
     }
 
 }
