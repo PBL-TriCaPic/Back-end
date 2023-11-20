@@ -80,9 +80,12 @@ public class preRequest {
 
 
     @PostMapping("/create/capsule")
-    public ResponseEntity<Long> createCapsule(@RequestBody CapsuleRequest capsuleRequest) {
+    public boolean createCapsule(@RequestBody CapsuleRequest capsuleRequest) {
     // カプセル情報を取得
+    Users users = new Users();
     Capsules newCapsule = new Capsules();
+    users.setUserId(capsuleRequest.getUserId());
+    newCapsule.setUsers(users);
     newCapsule.setCapsuleDate(LocalDateTime.now());
     newCapsule.setCapsuleLat(capsuleRequest.getCapsuleLat());
     newCapsule.setCapsuleLon(capsuleRequest.getCapsuleLon());
@@ -92,13 +95,9 @@ public class preRequest {
     String imageDataBase64 = capsuleRequest.getImageDataBase64();
 
     // 新しいカプセルをデータベースに保存
-    Long savedCapsuleId = dataOperation.createCapsule(newCapsule, imageDataBase64);
+    boolean savedCapsuleId = dataOperation.createCapsule(newCapsule, imageDataBase64);
 
-    if (savedCapsuleId != null) {
-        return new ResponseEntity<>(savedCapsuleId, HttpStatus.OK);
-    } else {
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    return savedCapsuleId;
 }
 
 
@@ -165,12 +164,21 @@ class pre{
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 class CapsuleRequest {
+    private String userId;
     private LocalDateTime capsuleDate;
     private Float capsuleLat;
     private Float capsuleLon;
     private String textData;
     private String imageDataBase64;
 
+
+        public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public LocalDateTime getCapsuleDate() {
         return capsuleDate;

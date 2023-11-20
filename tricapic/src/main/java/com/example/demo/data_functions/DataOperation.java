@@ -73,21 +73,21 @@ public class DataOperation {
     }
 
     // カプセルテーブルに情報追加
-    public Long createCapsule(Capsules newCapsule, String imageDataBase64) {
-        if (newCapsule.getCapsuleDate() == null
-        || newCapsule.getCapsulesId() == null
-        || Float.isNaN(newCapsule.getCapsuleLat())
-        || Float.isNaN(newCapsule.getCapsuleLon())) {
-            return null; // 必要なデータが不足している場合はnullを返す
-        }
+    public boolean createCapsule(Capsules newCapsule, String imageDataBase64) {
+        // if (newCapsule.getCapsuleDate() == null
+        // || newCapsule.getCapsulesId() == null
+        // || Float.isNaN(newCapsule.getCapsuleLat())
+        // || Float.isNaN(newCapsule.getCapsuleLon())) {
+        //     return null; // 必要なデータが不足している場合はnullを返す
+        // }
 
-    try {
+        try {
 
-            // ユーザーが存在するか確認
-            Users user = newCapsule.getUsers();
-            if (user == null || usersRepo.findById(user.getUserId()).orElse(null) == null) {
-                return null;
-            }
+            // // ユーザーが存在するか確認
+            // Users user = newCapsule.getUsers();
+            // if (user == null || usersRepo.findById(user.getUserId()).orElse(null) == null) {
+            //     return null;
+            // }
 
             // カプセルの作成日時を現在時刻に設定
             newCapsule.setCapsuleDate(LocalDateTime.now());
@@ -96,30 +96,34 @@ public class DataOperation {
             Capsules savedCapsule = capsulesRepo.save(newCapsule);
 
             // 画像データをデコードしてファイルに保存
-            saveImageData(savedCapsule.getCapsulesId(), imageDataBase64);
-
+            String path = saveImageData(savedCapsule.getCapsulesId(), imageDataBase64);
+            Photos newpPhotos= new Photos();
+            newpPhotos.setCapsules(savedCapsule);
+            newpPhotos.setImageData(path);
+            photosRepo.save(newpPhotos);
             // 保存後のカプセルIDを取得して返す
-            return savedCapsule.getCapsulesId();
+            return true;
         } catch (Exception e) {
-            return null;
+            return false;
         }
     }
 
     // 画像データをデコードしてファイルに保存
-    private boolean saveImageData(Long capsulesId, String imageDataBase64) {
+    private String saveImageData(Long capsulesId, String imageDataBase64) {
         try {
             byte[] imageData = Base64.decodeBase64(imageDataBase64);
 
             // ファイルパスの設定
-            String filePath = "path/to/save/" + capsulesId + ".jpg";
+            String filePath = "/tricapic/src/main/java/com/example/demo/data_functions/image" + capsulesId + ".jpg";
 
             // 画像データをファイルに保存
             Files.write(Paths.get(filePath), imageData);
+            
 
-            return true;
+            return filePath;
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 
@@ -144,7 +148,7 @@ public class DataOperation {
     public String getImageDataAsBase64(String imagePath) {
         try {
             BufferedImage image = ImageIO.read(new File(imagePath));
-            System.out.println(image);
+            System.out.println("今ここ！！");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(image, "jpg", baos);
             byte[] imageData = baos.toByteArray();
