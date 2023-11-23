@@ -78,7 +78,7 @@ public class preRequest {
 
 
     @PostMapping("/create/capsule")
-    public Long createCapsule(@RequestBody CapsuleRequest capsuleRequest) {
+    public pre2 createCapsule(@RequestBody CapsuleRequest capsuleRequest) {
     // カプセル情報を取得
     Users users = new Users();
     Capsules newCapsule = new Capsules();
@@ -93,9 +93,28 @@ public class preRequest {
     String imageDataBase64 = capsuleRequest.getImageDataBase64();
 
     // 新しいカプセルをデータベースに保存
-    Long savedCapsuleId = dataOperation.createCapsule(newCapsule, imageDataBase64);
+    dataOperation.createCapsule(newCapsule, imageDataBase64);
 
-    return savedCapsuleId;
+    pre2 result2 = new pre2();
+
+    // カプセル情報
+    List<Capsules> capsulesList = dataOperation.getCapsulesInfoByUserId(users.getUserId());
+
+    if (!capsulesList.isEmpty()) {
+        List<Long> capsulesId = new ArrayList<>();
+        List<Float> capsuleLat = new ArrayList<>();
+        List<Float> capsuleLon = new ArrayList<>();
+
+        for (Capsules capsules : capsulesList) {
+            capsulesId.add(capsules.getCapsulesId());
+            capsuleLat.add(capsules.getCapsuleLat());
+            capsuleLon.add(capsules.getCapsuleLon());
+        }
+        result2.setCapsulesIdList(capsulesId);
+        result2.setCapsuleLatList(capsuleLat);
+        result2.setCapsuleLonList(capsuleLon);
+    }
+    return result2;
 }
 
 
@@ -130,7 +149,26 @@ public class preRequest {
         }
 }
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+class pre2 {
+    List<Long> capsulesIdList;
+    List<Float> capsuleLatList;
+    List<Float> capsuleLonList;
 
+
+    public void setCapsulesIdList(List<Long> capsulesIdList) {
+        this.capsulesIdList = capsulesIdList;
+    }
+
+    public void setCapsuleLatList(List<Float> capsuleLatList) {
+        this.capsuleLatList = capsuleLatList;
+    }
+
+    public void setCapsuleLonList(List<Float> capsuleLonList) {
+        this.capsuleLonList = capsuleLonList;
+    }
+
+}
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 class pre{
