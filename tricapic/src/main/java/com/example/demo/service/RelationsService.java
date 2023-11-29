@@ -21,7 +21,7 @@ public class RelationsService {
     @Transactional
     public boolean addFollow(Users followerUser, Users followedUser, Long id) {
 
-        Relations follow = relationsRepository.findByFollowerAndFollowed(followerUser, followedUser);
+        Relations follow = relationsRepository.findByFollowerIdAndFollowedId(followerUser, followedUser);
 
         // 登録されたフォローがまだない場合
         if (follow == null) {
@@ -44,7 +44,7 @@ public class RelationsService {
     @Transactional
     public boolean deleteFollow(Users followerUser, Users followedUser, Long id) {
 
-        Relations follow = relationsRepository.findByFollowerAndFollowed(followerUser, followedUser);
+        Relations follow = relationsRepository.findByFollowerIdAndFollowedId(followerUser, followedUser);
 
         // 該当するフォローがあれば
         if (follow != null) {
@@ -64,32 +64,32 @@ public class RelationsService {
     // ログインユーザーがフォローするユーザー数を計算する
     public Long getFollowerCount(String followerUser) {
 
-        return relationsRepository.countByFollower(followerUser);
+        return relationsRepository.countByFollowerId(followerUser);
     }
 
     // ログインユーザーをフォローするユーザー数を計算する
     public Long getFollowedCount(String followedUser) {
 
-        return relationsRepository.countByFollowed(followedUser);
+        return relationsRepository.countByFollowedId(followedUser);
     }
 
     // ログインユーザーがフォローするユーザーリスト（フォローリスト）を抽出する
     public List<String> getFollower(String userId) {
 
-        return relationsRepository.findFollowerByUserId(userId);
+        return relationsRepository.findFollowerIdByUserId(userId);
     }
 
     // ログインユーザーをフォローするユーザーリスト（フォロワーリスト）を抽出する
     public List<String> getFollowed(String userId) {
 
-        return relationsRepository.findFollowedByUserId(userId);
+        return relationsRepository.findFollowedIdByUserId(userId);
     }
 
     // ログインユーザーのフォローリストからアンフォローリクエストを処理する。
     @Transactional
     public boolean deleteFollowList(Users followerUser, Users followedUser) {
 
-        Relations follow = relationsRepository.findByFollowerAndFollowed(followerUser, followedUser);
+        Relations follow = relationsRepository.findByFollowerIdAndFollowedId(followerUser, followedUser);
 
         // 該当するフォローがあれば
         if (follow != null) {
@@ -99,10 +99,10 @@ public class RelationsService {
 
         } else {
 
-            // フォローがない場合はまだ登録されていないというメッセージを表示する
+            // アンフォロー失敗
             return false;
         }
-        // アンフォロー成功メッセージ
+        // アンフォロー成功
         return true;
     }
 }
