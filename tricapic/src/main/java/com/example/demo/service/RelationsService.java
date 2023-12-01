@@ -19,16 +19,16 @@ public class RelationsService {
 
     // フォローリクエストを処理するサービスロジック
     @Transactional
-    public boolean addFollow(Users followerUser, Users followedUser, Long id) {
+    public boolean addFollow(Users followerId, Users followedId) {
 
-        Relations follow = relationsRepository.findByFollowerIdAndFollowedId(followerUser, followedUser);
+            Relations follow = relationsRepository.findByFollowerIdAndFollowedId(followerId, followedId);
 
         // 登録されたフォローがまだない場合
         if (follow == null) {
 
             follow = new Relations();
-            follow.setFollowerId(followerUser);
-            follow.setFollowedId(followedUser);
+            follow.setFollowerId(followerId);
+            follow.setFollowedId(followedId);
             relationsRepository.save(follow);
 
         } else {
@@ -42,7 +42,7 @@ public class RelationsService {
 
     // アンフォローリクエストを処理するサービスロジック
     @Transactional
-    public boolean deleteFollow(Users followerUser, Users followedUser, Long id) {
+    public boolean deleteFollow(Users followerUser, Users followedUser) {
 
         Relations follow = relationsRepository.findByFollowerIdAndFollowedId(followerUser, followedUser);
 
@@ -61,7 +61,7 @@ public class RelationsService {
         return true;
     }
 
-    // ログインユーザーがフォローするユーザー数を計算する
+    // ログインユーザーのフォロー数を計算する
     public Long getFollowerCount(String followerUser) {
 
         return relationsRepository.countByFollowerId(followerUser);
