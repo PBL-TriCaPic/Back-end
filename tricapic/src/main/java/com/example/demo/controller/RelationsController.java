@@ -58,12 +58,8 @@ public class RelationsController {
             return ResponseEntity.badRequest().body(false);
         }
     }
-    
-    // フォロー数を取得するエンドポイント
-    @GetMapping("/get/follower-count/{userId}")
-    public Long getFollowerCount(@PathVariable String userId) {
-        return relationsService.getFollowerCount(userId);
-    }
+
+    // 他のエンドポイント：フォロワー数、フォロー数、リストを取得するエンドポイントなど…
 
     // フォロワー数を取得するエンドポイント
     @GetMapping("/get/followed-count/{userId}")
