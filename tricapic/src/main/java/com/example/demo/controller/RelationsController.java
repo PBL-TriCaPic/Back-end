@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.data_tables.Users;
 import com.example.demo.service.RelationsService;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 @RestController
 @RequestMapping("/api/relations")
@@ -20,43 +20,38 @@ public class RelationsController {
 
     private final RelationsService relationsService;
 
-    @Autowired
     public RelationsController(RelationsService relationsService) {
         this.relationsService = relationsService;
     }
 
     // フォロー関係を追加するエンドポイント
     @PostMapping("/follow")
-    public ResponseEntity<String> addFollow(
-            @RequestBody Users followerUser,
-            @RequestBody Users followedUser,
-            @RequestParam Long id
-    ) {
-        boolean success = relationsService.addFollow(followerUser, followedUser, id);
-        if (success) {
-            return ResponseEntity.ok("フォローしました。");
+    public ResponseEntity<Boolean> addFollow(@RequestBody RelationsRequest relationsrequest) {
+        Users followerId = relationsrequest.getFollowerId();
+        Users followedId = relationsrequest.getFollowedId();
+
+        if (followerId != null && followedId != null && followerId != followedId) {
+            boolean success = relationsService.addFollow(followerId, followedId);
+            return ResponseEntity.ok(success);
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("フォローに失敗しました。");
+            return ResponseEntity.badRequest().body(false);
         }
     }
 
     // フォロー関係を削除するエンドポイント
     @DeleteMapping("/unfollow")
-    public ResponseEntity<String> deleteFollow(
-            @RequestBody Users followerUser,
-            @RequestBody Users followedUser,
-            @RequestParam Long id
-    ) {
-        boolean success = relationsService.deleteFollow(followerUser, followedUser, id);
-        if (success) {
-            return ResponseEntity.ok("フォローを解除しました。");
+    public ResponseEntity<Boolean> deleteFollow(@RequestBody RelationsRequest relationsrequest) {
+        Users followerId = relationsrequest.getFollowerId();
+        Users followedId = relationsrequest.getFollowedId();
+
+        if (followerId != null && followedId != null){
+            boolean success = relationsService.deleteFollow(followerId, followedId);
+            return ResponseEntity.ok(success);
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("フォロー解除に失敗しました。");
+            return ResponseEntity.badRequest().body(false);
         }
     }
-
-    // 他のエンドポイント：フォロワー数、フォロー数、リストを取得するエンドポイントなど…
-
+    
     // フォロワー数を取得するエンドポイント
     @GetMapping("/follower-count")
     public ResponseEntity<Long> getFollowerCount(@RequestParam String followerUser) {
@@ -100,3 +95,16 @@ public class RelationsController {
     }
 }
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+class RelationsRequest {
+    Users followerId;
+    Users followedId;
+
+    public Users getFollowerId(){
+        return followerId;
+    }
+
+    public Users getFollowedId(){
+        return followedId;
+    }
+}
