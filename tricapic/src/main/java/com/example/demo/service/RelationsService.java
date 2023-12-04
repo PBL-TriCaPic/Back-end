@@ -42,14 +42,13 @@ public class RelationsService {
 
     // アンフォローリクエストを処理するサービスロジック
     @Transactional
-    public boolean deleteFollow(Users followerUser, Users followedUser) {
+    public boolean deleteFollow(Users followerId, Users followedId) {
 
-        Relations follow = relationsRepository.findByFollowerIdAndFollowedId(followerUser, followedUser);
+        Relations follow = relationsRepository.findByFollowerIdAndFollowedId(followerId, followedId);
 
         // 該当するフォローがあれば
         if (follow != null) {
 
-            // アンフォローする
             relationsRepository.delete(follow);
 
         } else {
@@ -61,48 +60,48 @@ public class RelationsService {
         return true;
     }
 
-    // ログインユーザーのフォロー数を計算する
+    // ユーザーのフォロー数を計算する
     public Long getFollowerCount(String followerUser) {
 
         return relationsRepository.countByFollowerId(followerUser);
     }
 
-    // ログインユーザーをフォローするユーザー数を計算する
+    // ユーザーのフォロー数を計算する
     public Long getFollowedCount(String followedUser) {
 
         return relationsRepository.countByFollowedId(followedUser);
     }
 
-    // ログインユーザーがフォローするユーザーリスト（フォローリスト）を抽出する
-    public List<String> getFollower(String userId) {
+    // ユーザーのフォローリストを参照する
+    public List<String> getFollowerList(String userId) {
 
         return relationsRepository.findFollowerIdByUserId(userId);
     }
 
-    // ログインユーザーをフォローするユーザーリスト（フォロワーリスト）を抽出する
-    public List<String> getFollowed(String userId) {
+    // ユーザーのフォロワーリストを参照する
+    public List<String> getFollowedList(String userId) {
 
         return relationsRepository.findFollowedIdByUserId(userId);
     }
 
-    // ログインユーザーのフォローリストからアンフォローリクエストを処理する。
-    @Transactional
-    public boolean deleteFollowList(Users followerUser, Users followedUser) {
+    // // ログインユーザーのフォローリストからアンフォローリクエストを処理する。
+    // @Transactional
+    // public boolean deleteFollowList(Users followerUser, Users followedUser) {
 
-        Relations follow = relationsRepository.findByFollowerIdAndFollowedId(followerUser, followedUser);
+    //     Relations follow = relationsRepository.findByFollowerIdAndFollowedId(followerUser, followedUser);
 
-        // 該当するフォローがあれば
-        if (follow != null) {
+    //     // 該当するフォローがあれば
+    //     if (follow != null) {
 
-            // アンフォローする
-            relationsRepository.delete(follow);
+    //         // アンフォローする
+    //         relationsRepository.delete(follow);
 
-        } else {
+    //     } else {
 
-            // アンフォロー失敗
-            return false;
-        }
-        // アンフォロー成功
-        return true;
-    }
+    //         // アンフォロー失敗
+    //         return false;
+    //     }
+    //     // アンフォロー成功
+    //     return true;
+    // }
 }
