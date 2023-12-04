@@ -13,20 +13,19 @@ public interface RelationsRepo extends JpaRepository<Relations, Long>{
     // フォローとフォロワーでレコードを探す
     Relations findByFollowerIdAndFollowedId(Users followerId, Users followedId);
 
-    // 現在ログインしているユーザーのフォローしているユーザー数の照会
-    @Query(value = "SELECT COUNT(*) FROM Relations WHERE followerId = ?1", nativeQuery = true)
+    // ユーザーのフォロー数の照会
+    @Query(value = "SELECT COUNT(*) FROM Relations WHERE follower_id = ?1", nativeQuery = true)
     Long countByFollowerId(String followerUser);
 
-    // 現在ログインしているユーザーをフォローしているユーザー数の照会
-    @Query(value = "SELECT COUNT(*) FROM Relations WHERE followedId = ?1", nativeQuery = true)
+    // ユーザーのフォロワー数の照会
+    @Query(value = "SELECT COUNT(*) FROM Relations WHERE followed_id = ?1", nativeQuery = true)
     Long countByFollowedId(String followedUser);
 
-
-    // 現在ログインしているユーザーのフォローアップリストの照会
-    @Query("SELECT r.followedId FROM Relations r WHERE r.followerId = :userId")
+    // ユーザーのフォローリストの照会
+    @Query("SELECT r.followedId.userId FROM Relations r WHERE r.followerId.userId = :userId")
     List<String> findFollowerIdByUserId(@Param("userId") String userId);
 
-    // 現在ログインしているユーザーのフォロワー一覧を照会
-    @Query("SELECT r.followerId FROM Relations r WHERE r.followedId = :userId")
+    // ユーザーのフォロワーリストの照会
+    @Query("SELECT r.followerId.userId FROM Relations r WHERE r.followedId.userId = :userId")
     List<String> findFollowedIdByUserId(@Param("userId") String userId);
 }
