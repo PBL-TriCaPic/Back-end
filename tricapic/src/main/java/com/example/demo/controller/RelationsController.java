@@ -59,8 +59,6 @@ public class RelationsController {
         }
     }
 
-    // 他のエンドポイント：フォロワー数、フォロー数、リストを取得するエンドポイントなど…
-
     // フォロワー数を取得するエンドポイント
     @GetMapping("/get/followed-count/{userId}")
     public Long getFollowedCount(@PathVariable String userId) {
