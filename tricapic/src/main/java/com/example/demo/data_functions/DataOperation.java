@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -90,7 +91,7 @@ public class DataOperation {
             // }
 
             // カプセルの作成日時を現在時刻に設定
-            newCapsule.setCapsuleDate(LocalDateTime.now());
+            newCapsule.setCapsuleDate(LocalDateTime.now(ZoneId.of("Asia/Tokyo")));
 
             // 新しいカプセルをデータベースに保存
             Capsules savedCapsule = capsulesRepo.save(newCapsule);
