@@ -67,6 +67,7 @@ private String encodeImageToBase64(String imagePath) {
         e.printStackTrace();
         return null;
     }
+    
 }
 
 

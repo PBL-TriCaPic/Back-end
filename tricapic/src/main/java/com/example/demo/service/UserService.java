@@ -29,4 +29,8 @@ public class UserService {
     public List<Capsules> getCapsulesByUserId(String userId) {
         return capsulesRepo.findByUsers_UserId(userId);
     }
+
+    public List<Capsules> getCapsulesByUserId(String userId) {
+        return capsulesRepo.findByUsers_UserId(userId);
+    }
 }
