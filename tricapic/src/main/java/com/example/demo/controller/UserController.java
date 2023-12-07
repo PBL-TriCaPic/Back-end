@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.data_tables.Capsules;
 import com.example.demo.data_tables.Users;
-import com.example.demo.service.UserCapsuleData; // ここでUserCapsuleDataを正しくインポートする
+import com.example.demo.service.UserCapsuleData;
 import com.example.demo.service.UserService;
 
 @RestController
