@@ -121,32 +121,39 @@ public class preRequest {
     
 
      // カプセル情報参照(CapsuleDate, Text, ReopenDate のみ)
-        @GetMapping("/get/capsules/{capsulesId}")
-        public CapsuleInfo getCapsuleInfo(@PathVariable Long capsulesId) {
-            Capsules capsule = dataOperation.getCapsuleInfo(capsulesId);
-            if (capsule != null) {
-                CapsuleInfo result = new CapsuleInfo();
-                result.setCapsuleDate(capsule.getCapsuleDate());
-                result.setTextData(capsule.getTextData());
-                // result.setPinColor(capsule.getPinColor());
-                // result.setPinForm(capsule.getPinForm());
-                // result.setPassword(capsule.getPassword());
-                result.setReopenDate(capsule.getReopenDate());
-                // result.setVideoData(capsule.getVideoData());
-                // result.setAudioData(capsule.getAudioData());
-                            // 画像データをBase64エンコードして設定
-                String imageData = null;
-                List<Photos> photoinfList = dataOperation.getPhotosInf(capsule.getCapsulesId());
-                for (Photos photosinf : photoinfList) {
-                    imageData = dataOperation.getImageDataAsBase64(photosinf.getImageData());
-                }
-                
-                result.setImageData(imageData);
-
-                return result;
+    @GetMapping("/get/capsules/{capsulesId}")
+    public CapsuleInfo getCapsuleInfo(@PathVariable Long capsulesId) {
+        Capsules capsule = dataOperation.getCapsuleInfo(capsulesId);
+        if (capsule != null) {
+            CapsuleInfo result = new CapsuleInfo();
+            result.setCapsuleDate(capsule.getCapsuleDate());
+            result.setTextData(capsule.getTextData());
+            // result.setPinColor(capsule.getPinColor());
+            // result.setPinForm(capsule.getPinForm());
+            // result.setPassword(capsule.getPassword());
+            result.setReopenDate(capsule.getReopenDate());
+            // result.setVideoData(capsule.getVideoData());
+            // result.setAudioData(capsule.getAudioData());
+                        // 画像データをBase64エンコードして設定
+            String imageData = null;
+            List<Photos> photoinfList = dataOperation.getPhotosInf(capsule.getCapsulesId());
+            for (Photos photosinf : photoinfList) {
+                imageData = dataOperation.getImageDataAsBase64(photosinf.getImageData());
             }
-            return null;
+            
+            result.setImageData(imageData);
+
+            return result;
         }
+        return null;
+    }
+
+    @PostMapping("/update/userInf")
+    public boolean updateUserInf(@RequestBody Users newuserInf){
+        String iconImage = newuserInf.getIconImage();
+        newuserInf.setIconImage(null);
+        return dataOperation.updateUserINF(newuserInf, iconImage);
+    }
 }
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
