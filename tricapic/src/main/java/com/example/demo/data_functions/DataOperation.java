@@ -14,7 +14,9 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.controller.preRequest;
 import com.example.demo.data_interfaces.CapsulesRepo;
 import com.example.demo.data_interfaces.PhotosRepo;
 import com.example.demo.data_interfaces.UsersRepo;
@@ -160,6 +162,29 @@ public class DataOperation {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Transactional
+    public boolean updateUserINF(Users inputUsers, String imageDataBase64){
+        Users updateInf = usersRepo.findByUserId(inputUsers.getUserId());
+        if(updateInf != null){
+            String profImage_path;
+            try {
+                byte[] imageData = Base64.decodeBase64(imageDataBase64);
+                profImage_path = "/tricapic/src/main/java/com/example/demo/image/prof/image_"+updateInf.getUserId()+".jpg";
+                Files.write(Paths.get(profImage_path), imageData);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+
+            updateInf.setIconImage(profImage_path);
+            updateInf.setName(inputUsers.getName());
+            updateInf.setProfile(inputUsers.getProfile());
+            usersRepo.save(updateInf);
+            return true;
+        }
+        return false;
     }
 
 }
