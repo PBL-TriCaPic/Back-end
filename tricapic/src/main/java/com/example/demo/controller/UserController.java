@@ -68,6 +68,60 @@ private String encodeImageToBase64(String imagePath) {
         return null;
     }
     
+    capsuleUser.setCapsulesId(capsuleIds);
+
+    return capsuleUser;
+}
+
+
+    @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+    class CapsuleUser {
+
+        private String iconImage;
+        private String profile;
+        private String name;
+        private List<String> capsulesId;
+
+            // iconImageのゲッター
+        public String getIconImage() {
+            return iconImage;
+        }
+
+        // iconImageのセッター
+        public void setIconImage(String iconImage) {
+            this.iconImage = iconImage;
+        }
+
+        // profileのゲッター
+        public String getProfile() {
+            return profile;
+        }
+
+        // profileのセッター
+        public void setProfile(String profile) {
+            this.profile = profile;
+        }
+
+        // nameのゲッター
+        public String getName() {
+            return name;
+        }
+
+        // nameのセッター
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        // capsulesIdのゲッター
+        public List<String> getCapsulesId() {
+            return capsulesId;
+        }
+
+        // capsulesIdのセッター
+        public void setCapsulesId(List<String> capsulesId) {
+            this.capsulesId = capsulesId;
+        }
+    }
 }
 
 
@@ -142,3 +196,4 @@ private String encodeImageToBase64(String imagePath) {
     }
 }
 }
+
