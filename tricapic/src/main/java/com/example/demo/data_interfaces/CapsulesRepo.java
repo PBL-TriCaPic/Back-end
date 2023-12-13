@@ -14,5 +14,9 @@ import com.example.demo.data_tables.Capsules;
 @Repository
 public interface CapsulesRepo extends JpaRepository<Capsules, Long> {
     List<Capsules> findByUsers_UserId(String userId);
+
+    List<Long> findCapsuleIdsByUsers_UserId(String userId);//追加
 }
+
+
 
