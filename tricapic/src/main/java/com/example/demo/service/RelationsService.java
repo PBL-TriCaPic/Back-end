@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -14,14 +15,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class RelationsService {
-    private final RelationsRepo relationsRepository;
+    private final RelationsRepo relationsRepo;
 
 
     // フォローリクエストを処理するサービスロジック
     @Transactional
     public boolean addFollow(Users followerId, Users followedId) {
 
-            Relations follow = relationsRepository.findByFollowerIdAndFollowedId(followerId, followedId);
+            Relations follow = relationsRepo.findByFollowerIdAndFollowedId(followerId, followedId);
 
         // 登録されたフォローがまだない場合
         if (follow == null) {
@@ -29,7 +30,7 @@ public class RelationsService {
             follow = new Relations();
             follow.setFollowerId(followerId);
             follow.setFollowedId(followedId);
-            relationsRepository.save(follow);
+            relationsRepo.save(follow);
 
         } else {
             // 登録済みフォローの場合、失敗
@@ -44,12 +45,12 @@ public class RelationsService {
     @Transactional
     public boolean deleteFollow(Users followerId, Users followedId) {
 
-        Relations follow = relationsRepository.findByFollowerIdAndFollowedId(followerId, followedId);
+        Relations follow = relationsRepo.findByFollowerIdAndFollowedId(followerId, followedId);
 
         // 該当するフォローがあれば
         if (follow != null) {
 
-            relationsRepository.delete(follow);
+            relationsRepo.delete(follow);
 
         } else {
 
@@ -62,46 +63,49 @@ public class RelationsService {
 
     // ユーザーのフォロー数を計算する
     public Long getFollowerCount(String followerUser) {
-
-        return relationsRepository.countByFollowerId(followerUser);
+        return relationsRepo.countByFollowerId(followerUser);
     }
 
     // ユーザーのフォロー数を計算する
     public Long getFollowedCount(String followedUser) {
-
-        return relationsRepository.countByFollowedId(followedUser);
+        return relationsRepo.countByFollowedId(followedUser);
     }
 
     // ユーザーのフォローリストを参照する
     public List<String> getFollowerList(String userId) {
-
-        return relationsRepository.findFollowerIdByUserId(userId);
-    }
+    return relationsRepo.findFollowerIdByUserId(userId);
+}
 
     // ユーザーのフォロワーリストを参照する
     public List<String> getFollowedList(String userId) {
-
-        return relationsRepository.findFollowedIdByUserId(userId);
+        return relationsRepo.findFollowedIdByUserId(userId);
     }
 
-    // // ログインユーザーのフォローリストからアンフォローリクエストを処理する。
-    // @Transactional
-    // public boolean deleteFollowList(Users followerUser, Users followedUser) {
+    //フレンド数の取得
+    public int getFriendsCount(String userId) {
+        List<String> friendsList = getFriendsList(userId);
+        return friendsList.size();
+    }
 
-    //     Relations follow = relationsRepository.findByFollowerIdAndFollowedId(followerUser, followedUser);
+    //ユーザーのフレンドリストの参照(相互フォロー)
+    public List<String> getFriendsList(String userId) {
+        List<String> followerList = relationsRepo.findFollowerIdByUserId(userId);
+        List<String> followedList = relationsRepo.findFollowedIdByUserId(userId);
+        
+        List<String> friendsList = new ArrayList<>(followerList);
+        friendsList.retainAll(followedList);
+        
+        return friendsList;
+}
 
-    //     // 該当するフォローがあれば
-    //     if (follow != null) {
+    //ユーザーのフレンドリクエストリスト
+    public List<String> getFriendRequestList(String userId) {
+        List<String> followedList = getFollowedList(userId);
+        List<String> friendsList = getFriendsList(userId);
 
-    //         // アンフォローする
-    //         relationsRepository.delete(follow);
-
-    //     } else {
-
-    //         // アンフォロー失敗
-    //         return false;
-    //     }
-    //     // アンフォロー成功
-    //     return true;
-    // }
+        List<String> friendRequestList = new ArrayList<>(followedList);
+        friendRequestList.removeAll(friendsList);
+        
+        return friendRequestList;
+}
 }
