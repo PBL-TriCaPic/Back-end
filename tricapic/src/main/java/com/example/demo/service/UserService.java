@@ -41,7 +41,7 @@ public class UserService {
     }
 
     public Users getUserById(String userId) {
-        return usersRepo.findByUserId(userId);
+        return usersRepo.findByUserId(userId);//UsersRepoで探してくれる
     }
 
     public List<Capsules> getCapsulesByUserId(String userId) {
