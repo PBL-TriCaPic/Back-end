@@ -140,3 +140,4 @@ private String encodeImageToBase64(String imagePath) {
             this.imageDataBase64 = imageDataBase64;
     }
 }
+}
