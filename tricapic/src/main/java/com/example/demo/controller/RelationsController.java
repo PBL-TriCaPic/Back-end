@@ -88,7 +88,7 @@ public class RelationsController {
         return relationsService.getFollowedList(userId);
     }
 
-    // フレンドリストを取得するエンドポイント(ユーザーIDとユーザー名)
+    // フレンドリストを取得するエンドポイント(ユーザーID,ユーザー名,アイコン)
     @GetMapping("/get/friends-list/{userId}")
     public List<UsersInfo> getFriendsList(@PathVariable String userId) {
         List<String> friendsIds = relationsService.getFriendsList(userId);
@@ -107,7 +107,7 @@ public class RelationsController {
         return friendsList;
     }
 
-    // フレンドリクエストリストを取得するエンドポイント(ユーザーIDとユーザー名)
+    // フレンドリクエストリストを取得するエンドポイント(ユーザーID,ユーザー名,アイコン)
     @GetMapping("/get/friendsRequest-list/{userId}")
     public List<UsersInfo> getFriendRequestList(@PathVariable String userId) {
         List<String> friendRequestIds = relationsService.getFriendRequestList(userId);
