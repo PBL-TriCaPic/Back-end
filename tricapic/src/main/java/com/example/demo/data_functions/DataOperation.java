@@ -16,7 +16,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.controller.preRequest;
 import com.example.demo.data_interfaces.CapsulesRepo;
 import com.example.demo.data_interfaces.PhotosRepo;
 import com.example.demo.data_interfaces.UsersRepo;
@@ -185,6 +184,19 @@ public class DataOperation {
             return true;
         }
         return false;
+    }
+
+    public String getUserIconByUserId(String userId) {
+        try {
+            Users user = usersRepo.findByUserId(userId);
+            if (user != null && user.getIconImage() != null) {
+                String imagePath = user.getIconImage();
+                return getImageDataAsBase64(imagePath);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.data_functions.DataOperation;
 import com.example.demo.data_interfaces.UsersRepo;
 import com.example.demo.data_tables.Users;
 import com.example.demo.service.RelationsService;
@@ -20,6 +22,9 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 @RestController
 @RequestMapping("/api/relations")
 public class RelationsController {
+
+    @Autowired
+    private DataOperation dataOperation;
     
 
     private final RelationsService relationsService;
@@ -83,7 +88,7 @@ public class RelationsController {
         return relationsService.getFollowedList(userId);
     }
 
-    // フレンドリストを取得するエンドポイント(ユーザーIDとユーザー名)
+    // フレンドリストを取得するエンドポイント(ユーザーID,ユーザー名,アイコン)
     @GetMapping("/get/friends-list/{userId}")
     public List<UsersInfo> getFriendsList(@PathVariable String userId) {
         List<String> friendsIds = relationsService.getFriendsList(userId);
@@ -91,28 +96,31 @@ public class RelationsController {
 
         for (String friendsId : friendsIds) {
             String friendsName = usersRepo.findNameByUserId(friendsId);
+            String friendsIcon = dataOperation.getUserIconByUserId(friendsId);
 
             UsersInfo result = new UsersInfo();
             result.setUserId(friendsId);
             result.setName(friendsName);
+            result.setIconImage(friendsIcon);
             friendsList.add(result);
         }
         return friendsList;
     }
 
-    // フレンドリクエストリストを取得するエンドポイント(ユーザーIDとユーザー名)
+    // フレンドリクエストリストを取得するエンドポイント(ユーザーID,ユーザー名,アイコン)
     @GetMapping("/get/friendsRequest-list/{userId}")
-
     public List<UsersInfo> getFriendRequestList(@PathVariable String userId) {
         List<String> friendRequestIds = relationsService.getFriendRequestList(userId);
         List<UsersInfo> friendRequestList = new ArrayList<>();
 
         for (String friendRequestId : friendRequestIds) {
             String friendRequestName = usersRepo.findNameByUserId(friendRequestId);
+            String friendsIcon = dataOperation.getUserIconByUserId(friendRequestId);
 
             UsersInfo result = new UsersInfo();
             result.setUserId(friendRequestId);
             result.setName(friendRequestName);
+            result.setIconImage(friendsIcon);
             friendRequestList.add(result);
         }
         return friendRequestList;
@@ -144,6 +152,7 @@ class RelationsRequest {
 class UsersInfo {
     String userId;
     String name;
+    String iconImage;
 
     public void setUserId(String userId) {
         this.userId = userId;
@@ -151,5 +160,9 @@ class UsersInfo {
 
     public void setName(String name){
         this.name = name;
+    }
+
+    public void setIconImage(String iconImage) {
+        this.iconImage = iconImage;
     }
 }
