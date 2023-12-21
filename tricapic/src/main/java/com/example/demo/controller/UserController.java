@@ -30,9 +30,14 @@ public class UserController {
     }
     @GetMapping("/users/{userId}") //エンドポイントもっと複雑に
 public CapsuleUser getUserWithCapsules(@PathVariable String userId) {
+
     Users user = userService.getUserById(userId);
+
     List<Capsules> capsules = userService.getCapsulesByUserId(userId);
+
     CapsuleUser capsuleUser = new CapsuleUser();//インスタンス
+
+    capsuleUser.setUserId(user.getUserId());//追加
     capsuleUser.setIconImage(user.getIconImage());
     capsuleUser.setProfile(user.getProfile());
     capsuleUser.setName(user.getName());
@@ -54,6 +59,9 @@ public CapsuleUser getUserWithCapsules(@PathVariable String userId) {
 
 // 画像をBase64にエンコードするメソッド
 private String encodeImageToBase64(String imagePath) {
+    if (imagePath == null || imagePath.isEmpty()) {
+        return null; // もしくは適切なデフォルト値を返す
+    }
     try {
         // 画像ファイルをバイト配列として読み込む
         byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
@@ -69,6 +77,7 @@ private String encodeImageToBase64(String imagePath) {
 
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     class CapsuleUser {
+        private String userId;
         private String iconImage;
         private String profile;
         private String name;
@@ -127,6 +136,15 @@ private String encodeImageToBase64(String imagePath) {
         // imageDataBase64のセッター
         public void setImageDataBase64(String imageDataBase64) {
             this.imageDataBase64 = imageDataBase64;
+        }
+        
+        //userId関連追加しました
+        public String getUserId() {
+            return userId;
+        }
+        
+        public void setUserId(String userId) {
+            this.userId = userId;
         }
     }
 }
