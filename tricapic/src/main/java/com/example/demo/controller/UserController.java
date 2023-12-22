@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,14 +43,14 @@ public CapsuleUser getUserWithCapsules(@PathVariable String userId) {
     CapsuleUser capsuleUser = new CapsuleUser();//インスタンス
 
     capsuleUser.setUserId(user.getUserId());//追加
-    capsuleUser.setIconImage(user.getIconImage());
+    // capsuleUser.setIconImage(user.getIconImage());
     capsuleUser.setProfile(user.getProfile());
     capsuleUser.setName(user.getName());
 
-    List<String> capsuleIds = capsules.stream().map(capsule -> String.valueOf(capsule.getCapsulesId())).collect(Collectors.toList());
+    // List<String> capsuleIds = capsules.stream().map(capsule -> String.valueOf(capsule.getCapsulesId())).collect(Collectors.toList());
     
 
-    capsuleUser.setCapsulesId(capsuleIds);
+    // capsuleUser.setCapsulesId(capsuleIds);
     capsuleUser.setCapsulesCount(capsules.size());
 
     //iconImageはパス名のため、base64でエンコード、デコードを行う。
@@ -86,22 +85,22 @@ private String encodeImageToBase64(String imagePath) {
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     class CapsuleUser {
         private String userId;
-        private String iconImage;
+        // private String iconImage;
         private String profile;
         private String name;
-        private List<String> capsulesId;
+        // private List<String> capsulesId;
         private int capsulesCount;
         private String imageDataBase64;
         private int friendsCount;
 
             // iconImageのゲッター
-        public String getIconImage() {
-            return iconImage;
-        }
-        // iconImageのセッター
-        public void setIconImage(String iconImage) {
-            this.iconImage = iconImage;
-        }
+        // public String getIconImage() {
+        //     return iconImage;
+        // }
+        // // iconImageのセッター
+        // public void setIconImage(String iconImage) {
+        //     this.iconImage = iconImage;
+        // }
         // profileのゲッター
         public String getProfile() {
             return profile;
@@ -119,13 +118,13 @@ private String encodeImageToBase64(String imagePath) {
             this.name = name;
         }
         // capsulesIdのゲッター
-        public List<String> getCapsulesId() {
-            return capsulesId;
-        }
-        // capsulesIdのセッター
-        public void setCapsulesId(List<String> capsulesId) {
-            this.capsulesId = capsulesId;
-        }
+        // public List<String> getCapsulesId() {
+        //     return capsulesId;
+        // }
+        // // capsulesIdのセッター
+        // public void setCapsulesId(List<String> capsulesId) {
+        //     this.capsulesId = capsulesId;
+        // }
 
         // capsulesCountのゲッター
         public int getCapsulesCount() {
