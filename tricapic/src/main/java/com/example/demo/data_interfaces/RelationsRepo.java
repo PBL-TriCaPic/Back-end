@@ -13,6 +13,9 @@ public interface RelationsRepo extends JpaRepository<Relations, Long>{
     // フォローとフォロワーでレコードを探す
     Relations findByFollowerIdAndFollowedId(Users followerId, Users followedId);
 
+    @Query("SELECT r FROM Relations r WHERE r.followerId.userId = :followerId AND r.followedId.userId = :followedId")
+    Relations findByFollowerIdAndFollowedId(@Param("followerId") String user1Id, @Param("followedId") String user2Id);
+
     // ユーザーのフォロー数の照会
     @Query(value = "SELECT COUNT(*) FROM Relations WHERE follower_id = ?1", nativeQuery = true)
     Long countByFollowerId(String followerUser);

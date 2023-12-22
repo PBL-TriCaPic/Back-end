@@ -108,4 +108,25 @@ public class RelationsService {
         
         return friendRequestList;
 }
+
+    //フレンド関係の判定
+    public int getFriendStatus(String user1Id, String user2Id) {
+        Relations relation1 = relationsRepo.findByFollowerIdAndFollowedId(user1Id, user2Id);
+        Relations relation2 = relationsRepo.findByFollowerIdAndFollowedId(user2Id, user1Id);
+        
+        int status = 0;
+
+    if (relation1 != null && relation2 != null) {
+        // フレンドの時
+        status = 3;
+    } else if (relation1 != null) {
+        // user1がuser2をフォローしている時
+        status = 1;
+    } else if (relation2 != null) {
+        // user2がuser1をフォローしている時
+        status = 2;
+    }
+
+    return status;
+}
 }
