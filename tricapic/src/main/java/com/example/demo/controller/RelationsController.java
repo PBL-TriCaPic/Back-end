@@ -125,8 +125,16 @@ public class RelationsController {
         }
         return friendRequestList;
     }
-}
+
+    // フレンド関係の状態を取得するエンドポイント (0=関係なし, 1=自分がフォローしている, 2=相手がフォローしている, 3=フレンド)
+    @GetMapping("/get/friends-status/{user1Id}/{user2Id}")
+    public int getFriendStatus(@PathVariable String user1Id, @PathVariable String user2Id) {
+        int status = relationsService.getFriendStatus(user1Id, user2Id);
+        return status;
+    }
     
+}
+
 
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)

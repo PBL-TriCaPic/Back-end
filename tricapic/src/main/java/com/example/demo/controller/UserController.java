@@ -10,10 +10,12 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.data_tables.Capsules;
 import com.example.demo.data_tables.Users;
+import com.example.demo.service.RelationsService;
 import com.example.demo.service.UserService;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
@@ -21,12 +23,16 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 
 @RestController
+@RequestMapping("/api")
 public class UserController {
 
     private final UserService userService;
+    private final RelationsService relationsService;
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RelationsService relationsService) {
         this.userService = userService;
+        this.relationsService = relationsService;
     }
     @GetMapping("/users/{userId}") //エンドポイントもっと複雑に
 public CapsuleUser getUserWithCapsules(@PathVariable String userId) {
@@ -53,6 +59,8 @@ public CapsuleUser getUserWithCapsules(@PathVariable String userId) {
     capsuleUser.setImageDataBase64(imageDataBase64);
 
     //フレンドの有無、フレンドの数（舘山くん作プッシュを利用していく）
+    int friendsCount = relationsService.getFriendsCount(userId);
+    capsuleUser.setFriendsCount(friendsCount);
 
     return capsuleUser;
 }
@@ -84,6 +92,7 @@ private String encodeImageToBase64(String imagePath) {
         private List<String> capsulesId;
         private int capsulesCount;
         private String imageDataBase64;
+        private int friendsCount;
 
             // iconImageのゲッター
         public String getIconImage() {
@@ -145,6 +154,14 @@ private String encodeImageToBase64(String imagePath) {
         
         public void setUserId(String userId) {
             this.userId = userId;
+        }
+
+        public int getFriendsCount() {
+            return friendsCount;
+        }
+
+        public void setFriendsCount(int friendsCount) {
+            this.friendsCount = friendsCount;
         }
     }
 }
