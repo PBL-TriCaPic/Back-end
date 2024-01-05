@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.data_functions.DataOperation;
 import com.example.demo.data_interfaces.UsersRepo;
+import com.example.demo.data_tables.Capsules;
 import com.example.demo.data_tables.Users;
 import com.example.demo.service.RelationsService;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -132,6 +133,24 @@ public class RelationsController {
         int status = relationsService.getFriendStatus(user1Id, user2Id);
         return status;
     }
+
+    // フレンドのカプセル情報を取得するエンドポイント
+    @GetMapping("/get/friends-capsules/{userId}")
+    public List<FriendCapsuleInfo> getFriendsCapsule(@PathVariable String userId) {
+        List<Capsules> friendsCapsules = relationsService.getFriendsCapsules(userId);
+        List<FriendCapsuleInfo> friendCapsuleList = new ArrayList<>();
+        for (Capsules capsules : friendsCapsules) {
+            FriendCapsuleInfo friendCapsuleInfo = new FriendCapsuleInfo();
+            friendCapsuleInfo.setFriendUserId(capsules.getUsers().getUserId());
+            friendCapsuleInfo.setFriendName(capsules.getUsers().getName());
+            friendCapsuleInfo.setCapsulesId(capsules.getCapsulesId());
+            friendCapsuleInfo.setCapsulesLat(capsules.getCapsuleLat());
+            friendCapsuleInfo.setCapsulesLon(capsules.getCapsuleLon());
+            friendCapsuleList.add(friendCapsuleInfo);
+        }
+
+        return friendCapsuleList;
+    }
     
 }
 
@@ -172,5 +191,35 @@ class UsersInfo {
 
     public void setIconImage(String iconImage) {
         this.iconImage = iconImage;
+    }
+}
+
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+class FriendCapsuleInfo {
+    String friendUserId;
+    String friendName;
+    Long capsulesId;
+    Float capsulesLat;
+    Float capsulesLon;
+
+
+    public void setFriendUserId(String friendUserId) {
+        this.friendUserId = friendUserId;
+    }
+
+    public void setFriendName(String friendName){
+        this.friendName = friendName;
+    }
+
+    public void setCapsulesId(Long capsulesId) {
+        this.capsulesId = capsulesId;
+    }
+
+    public void setCapsulesLat(Float capsulesLat){
+        this.capsulesLat = capsulesLat;
+    }
+
+        public void setCapsulesLon(Float capsulesLon){
+        this.capsulesLon = capsulesLon;
     }
 }

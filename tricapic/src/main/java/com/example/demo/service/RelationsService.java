@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.data_interfaces.CapsulesRepo;
 import com.example.demo.data_interfaces.RelationsRepo;
+import com.example.demo.data_tables.Capsules;
 import com.example.demo.data_tables.Relations;
 import com.example.demo.data_tables.Users;
 
@@ -16,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class RelationsService {
     private final RelationsRepo relationsRepo;
+    private final CapsulesRepo capsulesRepo;
 
 
     // フォローリクエストを処理するサービスロジック
@@ -128,5 +131,17 @@ public class RelationsService {
     }
 
     return status;
+}
+
+    // フレンドのカプセル情報を取得するサービスロジック
+    public List<Capsules> getFriendsCapsules(String userId) {
+        List<String> friendsList = getFriendsList(userId);
+        List<Capsules> friendsCapsules = new ArrayList<>();
+
+    for (String friendId : friendsList) {
+        List<Capsules> friendCapsules = capsulesRepo.findByUsers_UserId(friendId);
+        friendsCapsules.addAll(friendCapsules);
+    }
+    return friendsCapsules;
 }
 }
