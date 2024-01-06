@@ -152,7 +152,7 @@ public class DataOperation {
     public String getImageDataAsBase64(String imagePath) {
         try {
             BufferedImage image = ImageIO.read(new File(imagePath));
-            System.out.println("今ここ！！");
+            // System.out.println("今ここ！！");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(image, "jpg", baos);
             byte[] imageData = baos.toByteArray();
