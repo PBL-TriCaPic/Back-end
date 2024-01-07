@@ -52,9 +52,22 @@ public class preRequest {
         if (pass.equals(dbpass)) {
             result.setUserId(users.getUserId());
             result.setUsername(users.getName());
-            String iconimg = dataOperation.getImageDataAsBase64(users.getIconImage());
-            result.setIconImage(iconimg);
-            result.setProfile(users.getProfile());
+
+            // アイコンがnullのときはnullを格納
+            if (users.getIconImage() != null|| !users.getIconImage().isEmpty()) {
+                System.out.println("アイコン画像あり");
+                String iconimg = dataOperation.getImageDataAsBase64(users.getIconImage());
+                result.setIconImage(iconimg);
+            } else {
+                result.setIconImage(null);
+            }
+
+            // プロフィールがnullのときはnullを格納
+            if (users.getProfile() != null || !users.getProfile().isEmpty()) {
+                result.setProfile(users.getProfile());
+            } else {
+                result.setProfile(null);
+            }
             
             // カプセル情報
             List<Capsules> capsulesList = dataOperation.getCapsulesInfoByUserId(users.getUserId());
@@ -129,7 +142,13 @@ public class preRequest {
         Capsules capsule = dataOperation.getCapsuleInfo(capsulesId);
         if (capsule != null) {
             CapsuleInfo result = new CapsuleInfo();
-            result.setIconImage(dataOperation.getUserIconByUserId(capsule.getUsers().getUserId()));
+            // アイコンがnullのときはnullを格納
+            if (capsule.getUsers().getIconImage() != null || !capsule.getUsers().getIconImage().isEmpty()) {
+                String iconimg = dataOperation.getImageDataAsBase64(capsule.getUsers().getIconImage());
+                result.setIconImage(iconimg);
+            } else {
+                result.setIconImage(null);
+            }
             result.setCapsuleDate(capsule.getCapsuleDate());
             result.setTextData(capsule.getTextData());
             result.setReopenDate(capsule.getReopenDate());
