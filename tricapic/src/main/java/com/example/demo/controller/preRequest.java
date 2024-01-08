@@ -54,7 +54,7 @@ public class preRequest {
             result.setUsername(users.getName());
 
             // アイコンがnullのときはnullを格納
-            if (users.getIconImage() != null|| !users.getIconImage().isEmpty()) {
+            if (users.getIconImage() != null && !users.getIconImage().isEmpty()) {
                 System.out.println("アイコン画像あり");
                 String iconimg = dataOperation.getImageDataAsBase64(users.getIconImage());
                 result.setIconImage(iconimg);
@@ -63,7 +63,7 @@ public class preRequest {
             }
 
             // プロフィールがnullのときはnullを格納
-            if (users.getProfile() != null || !users.getProfile().isEmpty()) {
+            if (users.getProfile() != null && !users.getProfile().isEmpty()) {
                 result.setProfile(users.getProfile());
             } else {
                 result.setProfile(null);
