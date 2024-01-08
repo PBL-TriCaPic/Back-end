@@ -143,7 +143,7 @@ public class preRequest {
         if (capsule != null) {
             CapsuleInfo result = new CapsuleInfo();
             // アイコンがnullのときはnullを格納
-            if (capsule.getUsers().getIconImage() != null || !capsule.getUsers().getIconImage().isEmpty()) {
+            if (capsule.getUsers().getIconImage() != null && !capsule.getUsers().getIconImage().isEmpty()) {
                 String iconimg = dataOperation.getImageDataAsBase64(capsule.getUsers().getIconImage());
                 result.setIconImage(iconimg);
             } else {
