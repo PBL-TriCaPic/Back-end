@@ -52,6 +52,22 @@ public class preRequest {
         if (pass.equals(dbpass)) {
             result.setUserId(users.getUserId());
             result.setUsername(users.getName());
+
+            // アイコンがnullのときはnullを格納
+            if (users.getIconImage() != null && !users.getIconImage().isEmpty()) {
+                System.out.println("アイコン画像あり");
+                String iconimg = dataOperation.getImageDataAsBase64(users.getIconImage());
+                result.setIconImage(iconimg);
+            } else {
+                result.setIconImage(null);
+            }
+
+            // プロフィールがnullのときはnullを格納
+            if (users.getProfile() != null && !users.getProfile().isEmpty()) {
+                result.setProfile(users.getProfile());
+            } else {
+                result.setProfile(null);
+            }
             
             // カプセル情報
             List<Capsules> capsulesList = dataOperation.getCapsulesInfoByUserId(users.getUserId());
@@ -126,21 +142,24 @@ public class preRequest {
         Capsules capsule = dataOperation.getCapsuleInfo(capsulesId);
         if (capsule != null) {
             CapsuleInfo result = new CapsuleInfo();
+            // アイコンがnullのときはnullを格納
+            if (capsule.getUsers().getIconImage() != null && !capsule.getUsers().getIconImage().isEmpty()) {
+                String iconimg = dataOperation.getImageDataAsBase64(capsule.getUsers().getIconImage());
+                result.setIconImage(iconimg);
+            } else {
+                result.setIconImage(null);
+            }
             result.setCapsuleDate(capsule.getCapsuleDate());
             result.setTextData(capsule.getTextData());
-            // result.setPinColor(capsule.getPinColor());
-            // result.setPinForm(capsule.getPinForm());
-            // result.setPassword(capsule.getPassword());
             result.setReopenDate(capsule.getReopenDate());
-            // result.setVideoData(capsule.getVideoData());
-            // result.setAudioData(capsule.getAudioData());
-                        // 画像データをBase64エンコードして設定
+
+            // 画像データをBase64エンコードして設定
             String imageData = null;
             List<Photos> photoinfList = dataOperation.getPhotosInf(capsule.getCapsulesId());
             for (Photos photosinf : photoinfList) {
                 imageData = dataOperation.getImageDataAsBase64(photosinf.getImageData());
             }
-            
+
             result.setImageData(imageData);
 
             return result;
@@ -181,10 +200,18 @@ class pre2 {
 class pre{
     String userId;
     String username;
+    String iconImage;
+    String profile;
     List<Long> capsulesIdList;
     List<Float> capsuleLatList;
     List<Float> capsuleLonList;
 
+    public void setIconImage(String iconImage) {
+        this.iconImage = iconImage;
+    }
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
     public void setUserId(String userId) {
         this.userId = userId;
     }
@@ -267,6 +294,7 @@ class CapsuleRequest {
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 class CapsuleInfo {
+    String iconImage;
     LocalDateTime capsuleDate;
     String textData;
     String imageData;
@@ -304,6 +332,10 @@ class CapsuleInfo {
 
     public void setReopenDate(LocalDateTime reopenDate) {
         this.reopenDate = reopenDate;
+    }
+
+    public void setIconImage(String iconImage) {
+        this.iconImage = iconImage;
     }
 
     // public void setVideoData(String videoData) {
